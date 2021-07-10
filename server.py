@@ -2,7 +2,7 @@ import config
 import socket
 
 sock = socket.socket(family=socket.AF_INET, type=socket.SOCK_STREAM)
-sock.bind((socket.gethostname(), config.port))
+sock.bind((socket.gethostname(), config.PORT))
 sock.listen(5)
 
 while True:
