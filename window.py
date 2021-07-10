@@ -1,7 +1,7 @@
 import pygame
 import config
 import block
-from typing import List
+from typing import List, Tuple
 
 
 def get_rect(x: int, y: int) -> pygame.Rect:
@@ -19,11 +19,14 @@ class Window:
         self.height = config.GRID_SIZE * (config.RECT_SIZE + config.SPACING) - config.SPACING
 
         self.screen = pygame.display.set_mode(size=(self.width, self.height))
+        pygame.display.set_caption('L-Game')
 
-    def update(self, blocks: List[block.Block]):
+    def update(self, blocks: List[block.Block], coins: List[Tuple[int, int]]):
         self.draw_grid()
-        for l_block in blocks:
-            self.draw_block(l_block)
+        for player, l_block in enumerate(blocks):
+            self.draw_block(l_block, player)
+        for (x, y) in coins:
+            pygame.draw.rect(self.screen, config.YELLOW, get_rect(x, y))
         pygame.display.flip()
 
     def draw_grid(self):
@@ -32,6 +35,6 @@ class Window:
             for x in range(config.GRID_SIZE):
                 pygame.draw.rect(self.screen, config.WHITE, get_rect(x, y))
 
-    def draw_block(self, l_block):
+    def draw_block(self, l_block, player):
         for (x, y) in l_block:
-            pygame.draw.rect(self.screen, config.RED, get_rect(x, y))
+            pygame.draw.rect(self.screen, config.PLAYER_COLORS[player], get_rect(x, y))

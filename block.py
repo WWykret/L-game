@@ -1,4 +1,5 @@
 import operator
+import config
 
 
 class Block:
@@ -51,3 +52,27 @@ class Block:
 
         self.piece += 1
         return self.curr_x, self.curr_y
+
+    def move(self, dx: int, dy: int):
+        prev_pos = (self.x, self.y)
+        self.x += dx
+        self.y += dy
+        if self.is_out_of_bonds():
+            (self.x, self.y) = prev_pos
+
+    def rotate(self):
+        prev_rotation = self.rotation
+        self.rotation = (self.rotation + 1) % 4
+        if self.is_out_of_bonds():
+            self.rotation = prev_rotation
+
+    def flip(self):
+        self.inverted = not self.inverted
+        if self.is_out_of_bonds():
+            self.inverted = not self.inverted
+
+    def is_out_of_bonds(self) -> bool:
+        for (x, y) in self:
+            if x >= config.GRID_SIZE or x < 0 or y >= config.GRID_SIZE or y < 0:
+                return True
+        return False
