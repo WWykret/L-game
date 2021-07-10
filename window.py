@@ -33,5 +33,5 @@ class Window:
                 pygame.draw.rect(self.screen, config.WHITE, get_rect(x, y))
 
     def draw_block(self, l_block):
-
-        pygame.draw.rect(self.screen, config.RED, get_rect(l_block.x, l_block.y))
+        for (x, y) in l_block:
+            pygame.draw.rect(self.screen, config.RED, get_rect(x, y))
