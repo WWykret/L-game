@@ -14,12 +14,12 @@ print(f'recived msg = {msg.decode("utf-8")}')
 
 blocks = [
     Block(1, 2, 0, False),
-    # Block(2, 1, 2, False)
+    Block(2, 1, 2, False)
 ]
 
 coins = [
-    # (0, 0),
-    # (3, 3)
+    (0, 0),
+    (3, 3)
 ]
 
 player = 0
@@ -34,4 +34,4 @@ while running:
 
     keys = pygame.key.get_pressed()
 
-    window.update(blocks=blocks, coins=coins)
+    window.update(blocks=blocks, coins=coins, curr_player=player)

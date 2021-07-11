@@ -21,12 +21,13 @@ class Window:
         self.screen = pygame.display.set_mode(size=(self.width, self.height))
         pygame.display.set_caption('L-Game')
 
-    def update(self, blocks: List[block.Block], coins: List[Tuple[int, int]]):
+    def update(self, blocks: List[block.Block], coins: List[Tuple[int, int]], curr_player: int):
         self.draw_grid()
         for player, l_block in enumerate(blocks):
             self.draw_block(l_block, player)
         for (x, y) in coins:
             pygame.draw.rect(self.screen, config.YELLOW, get_rect(x, y))
+        self.draw_block(blocks[curr_player], curr_player)
         pygame.display.flip()
 
     def draw_grid(self):
