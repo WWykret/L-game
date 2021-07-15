@@ -27,7 +27,8 @@ class Window:
             self.draw_block(l_block, player)
         for (x, y) in coins:
             pygame.draw.rect(self.screen, config.YELLOW, get_rect(x, y))
-        self.draw_block(blocks[curr_player], curr_player)
+        if 0 <= curr_player < len(blocks):
+            self.draw_block(blocks[curr_player], curr_player)
         pygame.display.flip()
 
     def draw_grid(self):

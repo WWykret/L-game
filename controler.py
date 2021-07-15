@@ -2,7 +2,7 @@ import block
 import pygame
 
 
-def react_to_key_press(l_block: block.Block, key: int) -> bool:
+def react_to_key_press(l_block: block.Block, key: int) -> int:
     if key == pygame.K_LEFT:
         l_block.move(-1, 0)
     elif key == pygame.K_RIGHT:
@@ -16,5 +16,5 @@ def react_to_key_press(l_block: block.Block, key: int) -> bool:
     elif key == pygame.K_f:
         l_block.flip()
     elif key == pygame.K_SPACE:
-        return True
-    return False
+        return 1
+    return 0
