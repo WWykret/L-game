@@ -45,7 +45,7 @@ def recv_message():
 recv_thread = threading.Thread(target=recv_message, args=[])
 recv_thread.start()
 
-selected_coin = None
+selected_coin = 0
 
 while running:
     for event in pygame.event.get():
@@ -55,11 +55,13 @@ while running:
         elif event.type == pygame.KEYDOWN:
             if player_state == 0:
                 player_state = controler.react_to_key_press(blocks[player], event.key, player_state)
+            elif player_state == 4:
+                player_state, selected_coin = controler.react_to_key_press(selected_coin, event.key, player_state)
             elif player_state == 5:
-                player_state = controler.react_to_key_press(selected_coin, event.key, player_state)
+                player_state = controler.react_to_key_press(coins[selected_coin], event.key, player_state)
 
     if player_state == 1:
         sock.send(bytes(f'sta{messages.get_state_string((blocks, coins))}', 'utf-8'))
         player_state = 3
 
-    window.update(blocks=blocks, coins=coins, curr_player=player)
+    window.update(blocks=blocks, coins=coins, curr_player=player, curr_coin=selected_coin, curr_state=player_state)
