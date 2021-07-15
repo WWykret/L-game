@@ -1,5 +1,6 @@
 import operator
 import config
+from typing import Tuple
 
 
 class Block:
@@ -13,7 +14,7 @@ class Block:
         self.curr_y = self.y
 
     def __str__(self):
-        return f'(x, y) = ({self.x},{self.y}) --- rot = {90 * self.rotation} --- inverted = {self.inverted}'
+        return f'{self.x}{self.y}{self.rotation}{1 if self.inverted else 0}'
 
     def __iter__(self):
         self.piece = 0
@@ -76,3 +77,28 @@ class Block:
             if x >= config.GRID_SIZE or x < 0 or y >= config.GRID_SIZE or y < 0:
                 return True
         return False
+
+
+class Coin:
+    def __init__(self, pos: Tuple[int, int]) -> None:
+        self.x = pos[0]
+        self.y = pos[1]
+
+    def move(self, dx: int, dy: int) -> None:
+        prev_x, prev_y = self.x, self.y
+        self.x += dx
+        self.y += dy
+        if self.x >= config.GRID_SIZE or self.x < 0 or self.y >= config.GRID_SIZE or self.y < 0:
+            self.x, self.y = prev_x, prev_y
+
+    def get_pos(self) -> Tuple[int, int]:
+        return self.x, self.y
+
+    def rotate(self):
+        pass
+
+    def flip(self):
+        pass
+
+    def __str__(self):
+        return f'{self.x}{self.y}'

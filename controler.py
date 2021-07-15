@@ -1,20 +1,27 @@
 import block
 import pygame
+from typing import Union
 
 
-def react_to_key_press(l_block: block.Block, key: int) -> int:
+def react_to_key_press(element: Union[block.Block, block.Coin], key: int, curr_state: int) -> int:
     if key == pygame.K_LEFT:
-        l_block.move(-1, 0)
+        element.move(-1, 0)
     elif key == pygame.K_RIGHT:
-        l_block.move(1, 0)
+        element.move(1, 0)
     elif key == pygame.K_UP:
-        l_block.move(0, -1)
+        element.move(0, -1)
     elif key == pygame.K_DOWN:
-        l_block.move(0, 1)
+        element.move(0, 1)
     elif key == pygame.K_r:
-        l_block.rotate()
+        element.rotate()
     elif key == pygame.K_f:
-        l_block.flip()
+        element.flip()
     elif key == pygame.K_SPACE:
-        return 1
-    return 0
+        if curr_state == 0:
+            return 4
+        elif curr_state == 4:
+            return 5
+        elif curr_state == 5:
+            return 1
+    return curr_state
+

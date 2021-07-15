@@ -2,7 +2,6 @@ import socket
 import config
 from window import Window
 import pygame
-from block import Block
 import controler
 import messages
 import threading
@@ -23,7 +22,7 @@ coins = [
 ]
 
 player = 0
-player_state = 0  # 0 - move, 1 - send to server, 2 - wait for turn, 3 - wait for response
+player_state = 0  # 0-move block, 1-send to server, 2-wait for turn, 3-wait for response, 4-select coin, 5-move coin
 
 running = True
 
@@ -46,6 +45,8 @@ def recv_message():
 recv_thread = threading.Thread(target=recv_message, args=[])
 recv_thread.start()
 
+selected_coin = None
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -53,7 +54,9 @@ while running:
             running = False
         elif event.type == pygame.KEYDOWN:
             if player_state == 0:
-                player_state = controler.react_to_key_press(blocks[player], event.key)
+                player_state = controler.react_to_key_press(blocks[player], event.key, player_state)
+            elif player_state == 5:
+                player_state = controler.react_to_key_press(selected_coin, event.key, player_state)
 
     if player_state == 1:
         sock.send(bytes(f'sta{messages.get_state_string((blocks, coins))}', 'utf-8'))
