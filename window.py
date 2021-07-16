@@ -1,7 +1,6 @@
 import pygame
 import config
-import block
-from typing import List
+from board import Board
 
 
 def get_rect(x: int, y: int) -> pygame.Rect:
@@ -21,17 +20,17 @@ class Window:
         self.screen = pygame.display.set_mode(size=(self.width, self.height))
         pygame.display.set_caption('L-Game')
 
-    def update(self, blocks: List[block.Block], coins: List[block.Coin], curr_player: int, curr_coin: int, curr_state: int):
+    def update(self, board: Board, curr_player: int, curr_coin: int, curr_state: int):
         self.draw_grid()
-        for player, l_block in enumerate(blocks):
+        for player, l_block in enumerate(board.blocks):
             self.draw_block(l_block, player)
-        for coin in coins:
+        for coin in board.coins:
             x, y = coin.get_pos()
             pygame.draw.rect(self.screen, config.YELLOW, get_rect(x, y))
-        if 0 <= curr_player < len(blocks):
-            self.draw_block(blocks[curr_player], curr_player)
+        if 0 <= curr_player < len(board.blocks):
+            self.draw_block(board.blocks[curr_player], curr_player)
         if curr_state == 4:
-            x, y = coins[curr_coin].get_pos()
+            x, y = board.coins[curr_coin].get_pos()
             pygame.draw.rect(self.screen, config.GREEN, get_rect(x, y))
         pygame.display.flip()
 

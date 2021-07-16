@@ -1,23 +1,24 @@
-import block
+from board import Board
 import pygame
 from typing import Union, Tuple
 
 
-def react_to_key_press(element: Union[block.Block, block.Coin, int], key: int, curr_state: int) -> \
+def react_to_key_press(element: Union[Tuple[Board, str, int], int], key: int, curr_state: int) -> \
         Union[int, Tuple[int, int]]:
     if not isinstance(element, int):
+        moved_element = getattr(element[0], element[1])
         if key == pygame.K_LEFT:
-            element.move(-1, 0)
+            moved_element[element[2]].move(-1, 0)
         elif key == pygame.K_RIGHT:
-            element.move(1, 0)
+            moved_element[element[2]].move(1, 0)
         elif key == pygame.K_UP:
-            element.move(0, -1)
+            moved_element[element[2]].move(0, -1)
         elif key == pygame.K_DOWN:
-            element.move(0, 1)
+            moved_element[element[2]].move(0, 1)
         elif key == pygame.K_r:
-            element.rotate()
+            moved_element[element[2]].rotate()
         elif key == pygame.K_f:
-            element.flip()
+            moved_element[element[2]].flip()
     elif key == pygame.K_r:
         return curr_state, (1 - element)
 

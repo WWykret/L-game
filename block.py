@@ -78,6 +78,9 @@ class Block:
                 return True
         return False
 
+    def get_pos(self) -> Tuple[int, int, int, bool]:
+        return self.x, self.y, self.rotation, self.inverted
+
 
 class Coin:
     def __init__(self, pos: Tuple[int, int]) -> None:
