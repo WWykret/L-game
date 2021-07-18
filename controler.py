@@ -24,11 +24,17 @@ def react_to_key_press(element: Union[Tuple[Board, str, int], int], key: int, cu
 
     if key == pygame.K_SPACE:
         if curr_state == 0:
-            return 4
+            if element[0].check_board_state():
+                return 4
+            else:
+                return 0
         elif curr_state == 4:
             return 5, element
         elif curr_state == 5:
-            return 1
+            if element[0].check_board_state():
+                return 1
+            else:
+                return 5
     if curr_state == 4:
         return curr_state, element
     else:

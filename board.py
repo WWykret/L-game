@@ -1,8 +1,9 @@
 from block import Block, Coin
 from typing import Tuple, Optional
+import copy
 
 
-def does_board_intersect(blocks: Tuple[Block, Block], coins: Tuple[Coin, Coin]) -> bool:
+def does_board_intersect(blocks: Tuple[Block, ...], coins: Tuple[Coin, ...]) -> bool:
     for block1 in blocks:
         for block2 in blocks:
             if block1 is block2:
@@ -36,17 +37,17 @@ class Board:
             self.coins = coins
         else:
             self.coins = ()
+        self.old_blocks = self.blocks
+        self.old_coins = self.coins
 
-    def change_board_state(self, blocks: Tuple[Block, Block], coins: Tuple[Coin, Coin]) -> bool:
-        new_blocks_set = {block.get_pos() for block in blocks}
-        old_blocks_set = {block.get_pos() for block in self.blocks}
+    def check_board_state(self) -> bool:
+        new_blocks_set = {block.get_pos() for block in self.blocks}
+        old_blocks_set = {block.get_pos() for block in self.old_blocks}
         if old_blocks_set == new_blocks_set:
             return False
-        elif does_board_intersect(blocks, coins):
+        elif does_board_intersect(self.blocks, self.coins):
             return False
         else:
-            self.blocks = blocks
-            self.coins = coins
             return True
 
     def get_board_from_str(self, config_str: str) -> None:
@@ -55,6 +56,8 @@ class Board:
                  Coin((int(config_str[10]), int(config_str[11]))))
         self.blocks = blocks
         self.coins = coins
+        self.old_blocks = copy.deepcopy(self.blocks)
+        self.old_coins = copy.deepcopy(self.coins)
 
     def __str__(self):
         state_str = ''
