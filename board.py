@@ -6,16 +6,11 @@ import copy
 def does_board_intersect(blocks: Tuple[Block, ...], coins: Tuple[Coin, ...]) -> bool:
     for block1 in blocks:
         for block2 in blocks:
-            if block1 is block2:
-                continue
-            for pos1 in block1:
-                for pos2 in block2:
-                    if pos1 == pos2:
-                        return True
+            if block1.check_for_intersection(block2):
+                return True
         for coin in coins:
-            for pos in block1:
-                if pos == coin.get_pos():
-                    return True
+            if coin.get_pos() in block1:
+                return True
     return False
 
 
@@ -28,7 +23,7 @@ def get_block_from_str(block_str: str) -> Block:
 
 
 class Board:
-    def __init__(self, blocks: Optional[Tuple[Block, Block]]=None, coins: Optional[Tuple[Coin, Coin]]=None) -> None:
+    def __init__(self, blocks: Optional[Tuple[Block, Block]] = None, coins: Optional[Tuple[Coin, Coin]] = None) -> None:
         if blocks is not None:
             self.blocks = blocks
         else:
@@ -46,6 +41,8 @@ class Board:
         if old_blocks_set == new_blocks_set:
             return False
         elif does_board_intersect(self.blocks, self.coins):
+            return False
+        elif self.coins[0].get_pos() == self.coins[1].get_pos():
             return False
         else:
             return True

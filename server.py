@@ -20,9 +20,8 @@ def game_loop():
     while True:
         msg_type = messages.get_msg_type(players[turn])
         print(msg_type)
-        if msg_type == config.MSG_TYPES['sta']:
+        if msg_type == 'sta':
             state = players[turn].recv(12).decode('utf-8')
-            players[turn].send(bytes('acp', 'utf-8'))
             players[1 - turn].send(bytes(f'tur{state}', 'utf-8'))
             turn = 1 - turn
 

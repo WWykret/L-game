@@ -1,6 +1,7 @@
 import pygame
 import config
 from board import Board
+from player import Player, PlayerState
 
 
 def get_rect(x: int, y: int) -> pygame.Rect:
@@ -20,17 +21,17 @@ class Window:
         self.screen = pygame.display.set_mode(size=(self.width, self.height))
         pygame.display.set_caption('L-Game')
 
-    def update(self, board: Board, curr_player: int, curr_coin: int, curr_state: int):
+    def update(self, board: Board, player: Player):
         self.draw_grid()
-        for player, l_block in enumerate(board.blocks):
-            self.draw_block(l_block, player)
+        for player_id, l_block in enumerate(board.blocks):
+            self.draw_block(l_block, config.PLAYER_COLORS[player_id])
         for coin in board.coins:
             x, y = coin.get_pos()
             pygame.draw.rect(self.screen, config.YELLOW, get_rect(x, y))
-        if 0 <= curr_player < len(board.blocks) and curr_state == 0:
-            self.draw_block(board.blocks[curr_player], curr_player)
-        if curr_state == 4:
-            x, y = board.coins[curr_coin].get_pos()
+        if player.player_id != -1 and player.state == PlayerState.MOVE_BLOCK:
+            self.draw_block(board.blocks[player.player_id], player.color)
+        if player.state == PlayerState.SELECT_COIN:
+            x, y = board.coins[player.selected_coin].get_pos()
             pygame.draw.rect(self.screen, config.GREEN, get_rect(x, y))
         pygame.display.flip()
 
@@ -40,6 +41,6 @@ class Window:
             for x in range(config.GRID_SIZE):
                 pygame.draw.rect(self.screen, config.WHITE, get_rect(x, y))
 
-    def draw_block(self, l_block, player):
+    def draw_block(self, l_block, color):
         for (x, y) in l_block:
-            pygame.draw.rect(self.screen, config.PLAYER_COLORS[player], get_rect(x, y))
+            pygame.draw.rect(self.screen, color, get_rect(x, y))
