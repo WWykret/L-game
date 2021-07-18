@@ -27,7 +27,7 @@ class Window:
         for coin in board.coins:
             x, y = coin.get_pos()
             pygame.draw.rect(self.screen, config.YELLOW, get_rect(x, y))
-        if 0 <= curr_player < len(board.blocks):
+        if 0 <= curr_player < len(board.blocks) and curr_state == 0:
             self.draw_block(board.blocks[curr_player], curr_player)
         if curr_state == 4:
             x, y = board.coins[curr_coin].get_pos()
