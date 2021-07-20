@@ -15,12 +15,3 @@ PLAYER_COLORS = [RED, BLUE]
 GRID_SIZE = 4
 SPACING = 1
 RECT_SIZE = 150
-
-# messages types
-MSG_TYPES = {
-    'ini': 0,
-    'sta': 1,
-    'tur': 2,
-    'acp': 3,
-    'ref': 4
-}

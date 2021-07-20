@@ -1,21 +1,17 @@
-from block import Block, Coin
+from source.model.block import Block, Coin
 from typing import Tuple, Optional
 import copy
+from source import config
 
 
 def does_board_intersect(blocks: Tuple[Block, ...], coins: Tuple[Coin, ...]) -> bool:
     for block1 in blocks:
         for block2 in blocks:
-            if block1 is block2:
-                continue
-            for pos1 in block1:
-                for pos2 in block2:
-                    if pos1 == pos2:
-                        return True
+            if block1.check_for_intersection(block2):
+                return True
         for coin in coins:
-            for pos in block1:
-                if pos == coin.get_pos():
-                    return True
+            if coin.get_pos() in block1:
+                return True
     return False
 
 
@@ -28,7 +24,7 @@ def get_block_from_str(block_str: str) -> Block:
 
 
 class Board:
-    def __init__(self, blocks: Optional[Tuple[Block, Block]]=None, coins: Optional[Tuple[Coin, Coin]]=None) -> None:
+    def __init__(self, blocks: Optional[Tuple[Block, Block]] = None, coins: Optional[Tuple[Coin, Coin]] = None) -> None:
         if blocks is not None:
             self.blocks = blocks
         else:
@@ -47,6 +43,8 @@ class Board:
             return False
         elif does_board_intersect(self.blocks, self.coins):
             return False
+        elif self.coins[0].get_pos() == self.coins[1].get_pos():
+            return False
         else:
             return True
 
@@ -54,6 +52,12 @@ class Board:
         blocks = (get_block_from_str(config_str[0:4]), get_block_from_str(config_str[4:8]))
         coins = (Coin((int(config_str[8]), int(config_str[9]))),
                  Coin((int(config_str[10]), int(config_str[11]))))
+
+        for index, block in enumerate(blocks):
+            block.color = config.PLAYER_COLORS[index]
+        for coin in coins:
+            coin.color = config.YELLOW
+
         self.blocks = blocks
         self.coins = coins
         self.old_blocks = copy.deepcopy(self.blocks)
