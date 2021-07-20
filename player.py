@@ -14,7 +14,6 @@ class Player:
 
     def __init__(self, player_id: int, player_turn: bool) -> None:
         self.player_id = player_id
-        self.color = config.PLAYER_COLORS[player_id]
         self.state = PlayerState.MOVE_BLOCK if player_turn else PlayerState.WAIT_FOR_TURN
         self.selected_coin = 0
 

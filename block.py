@@ -6,11 +6,13 @@ from typing import Tuple, Optional
 
 
 class BoardElement:
-    def __init__(self, x: int, y: int, rotation: Optional[int] = None, inverted: Optional[bool] = None) -> None:
+    def __init__(self, x: int, y: int, rotation: Optional[int] = None, inverted: Optional[bool] = None,
+                 color: Optional[Tuple[int, int, int]] = None) -> None:
         self.x = x
         self.y = y
         self.rotation = rotation if rotation is not None else 0
         self.inverted = inverted if inverted is not None else False
+        self.color = color
 
     def move(self, dx: int, dy: int) -> None:
         pass
@@ -119,6 +121,7 @@ class Block(BoardElement):
 class Coin(BoardElement):
     def __init__(self, pos: Tuple[int, int]) -> None:
         super().__init__(pos[0], pos[1], 0, False)
+        self.iterated = False
 
     def move(self, dx: int, dy: int) -> None:
         prev_x, prev_y = self.x, self.y
@@ -129,6 +132,16 @@ class Coin(BoardElement):
 
     def get_pos(self) -> Tuple[int, int]:
         return self.x, self.y
+
+    def __iter__(self):
+        self.iterated = False
+        return self
+
+    def __next__(self):
+        if not self.iterated:
+            self.iterated = True
+            return self.x, self.y
+        raise StopIteration
 
     def __str__(self) -> str:
         return f'{self.x}{self.y}'

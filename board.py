@@ -1,6 +1,7 @@
 from block import Block, Coin
 from typing import Tuple, Optional
 import copy
+import config
 
 
 def does_board_intersect(blocks: Tuple[Block, ...], coins: Tuple[Coin, ...]) -> bool:
@@ -51,6 +52,12 @@ class Board:
         blocks = (get_block_from_str(config_str[0:4]), get_block_from_str(config_str[4:8]))
         coins = (Coin((int(config_str[8]), int(config_str[9]))),
                  Coin((int(config_str[10]), int(config_str[11]))))
+
+        for index, block in enumerate(blocks):
+            block.color = config.PLAYER_COLORS[index]
+        for coin in coins:
+            coin.color = config.YELLOW
+
         self.blocks = blocks
         self.coins = coins
         self.old_blocks = copy.deepcopy(self.blocks)
