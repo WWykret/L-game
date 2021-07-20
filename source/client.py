@@ -1,12 +1,12 @@
 import socket
-import config
-from window import Window
+from source import config
+from source.view.window import Window
 import pygame
-import controler
-import messages
+from source.controler import controler
+from source.model import messages
 import threading
-from board import Board
-from player import Player, PlayerState
+from source.model.board import Board
+from source.model.player import Player, PlayerState
 
 sock = socket.socket(family=socket.AF_INET, type=socket.SOCK_STREAM)
 sock.connect((config.ADDRESS, config.PORT))

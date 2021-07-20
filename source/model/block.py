@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import operator
-import config
+from source import config
 from typing import Tuple, Optional
 
 

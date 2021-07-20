@@ -1,7 +1,7 @@
-from block import Block, Coin
+from source.model.block import Block, Coin
 from typing import Tuple, Optional
 import copy
-import config
+from source import config
 
 
 def does_board_intersect(blocks: Tuple[Block, ...], coins: Tuple[Coin, ...]) -> bool:

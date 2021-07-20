@@ -1,7 +1,7 @@
 import socket
 from typing import Tuple
-from board import Board
-from player import Player
+from source.model.board import Board
+from source.model.player import Player
 
 
 def get_msg_type(sock: socket.socket) -> str:

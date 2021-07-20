@@ -1,5 +1,5 @@
-from board import Board
-from player import Player, PlayerState
+from source.model.board import Board
+from source.model.player import Player, PlayerState
 import pygame
 
 

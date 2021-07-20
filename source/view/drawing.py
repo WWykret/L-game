@@ -1,6 +1,6 @@
 import pygame
-import config
-from block import BoardElement
+from source import config
+from source.model.block import BoardElement
 from typing import Tuple, Optional
 
 

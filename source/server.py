@@ -1,7 +1,7 @@
-import config
+from source import config
 import socket
 import threading
-import messages
+from source.model import messages
 
 sock = socket.socket(family=socket.AF_INET, type=socket.SOCK_STREAM)
 sock.bind((socket.gethostname(), config.PORT))

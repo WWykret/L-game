@@ -1,8 +1,8 @@
 import pygame
-import config
-from board import Board
-from player import Player, PlayerState
-from drawing import draw_grid, draw_board_element
+from source import config
+from source.model.board import Board
+from source.model.player import Player, PlayerState
+from source.view.drawing import draw_grid, draw_board_element
 
 
 class Window:
